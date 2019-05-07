@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="CheckRequests_Reason" alias="CheckRequests_Reason" created="2019-04-06T13:09:24" modified="2019-04-06T13:09:41" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="cr_reason_id" fieldName="CrReasonID" label="Reason ID" />
+    <column name="cr_reason" fieldName="CrReason" label="Cr Reason" />
+  </columns>
+</dataModel>

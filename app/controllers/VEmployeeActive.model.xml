@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="vEmployeeActive" alias="vEmployeeActive" created="2019-04-09T17:58:07" modified="2019-04-09T18:03:58" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="employeeid" fieldName="Employeeid" label="Employeeid" primaryKey="true" />
+    <column fieldName="EmployeeName" type="varchar(61)" dataType="String" label="Employee Name">
+      <formula>"vEmployeeActive"."first_name" + ' ' + "vEmployeeActive"."last_name"</formula>
+    </column>
+    <column name="address1" fieldName="Address1" label="Address 1" />
+    <column name="address2" fieldName="Address2" label="Address 2" />
+    <column name="city" fieldName="City" label="City" />
+    <column name="state" fieldName="State" label="State" />
+    <column name="zipcode" fieldName="Zipcode" label="Zipcode" />
+    <column name="company_code" fieldName="CompanyCode" label="Company Code" />
+  </columns>
+</dataModel>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="vCompany" alias="vCompany" created="2019-04-09T14:40:15" modified="2019-04-09T14:50:14" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="companyid" fieldName="Companyid" label="Companyid" primaryKey="true" />
+    <column name="company_code" fieldName="CompanyCode" label="Company Code" />
+    <column name="company_name" fieldName="CompanyName" label="Company Name" />
+  </columns>
+</dataModel>

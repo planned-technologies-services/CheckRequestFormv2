@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="vSiteAll" alias="vSiteAll" created="2019-04-08T10:40:55" modified="2019-04-09T15:12:53" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys />
+  <columns>
+    <column name="jobno" fieldName="Jobno" label="Job No." />
+    <column name="site_name" fieldName="SiteName" label="Site Name" />
+    <column name="city" fieldName="City" label="City" />
+    <column name="state" fieldName="State" label="State" />
+    <column name="siteid" fieldName="Siteid" label="Siteid" />
+    <column name="company_code" fieldName="CompanyCode" label="Company Code" />
+  </columns>
+</dataModel>

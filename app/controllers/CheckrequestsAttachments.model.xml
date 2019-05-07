@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="CheckRequests_Attachments" alias="CheckRequests_Attachments" created="2019-04-06T14:33:01" modified="2019-04-09T14:52:42" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="fk_chkreq" parentTableSchema="dbo" parentTableName="CheckRequests" x="310" y="20">
+      <foreignKeyColumn columnName="fk_chkreq_id" parentColumnName="chkreq_id" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="id" fieldName="ID" label="Id" />
+    <column name="fk_chkreq_id" fieldName="FKChkreqID" label="Fk Chkreq Id" aliasColumnName="chkreq_id" aliasForeignKey="fk_chkreq" />
+    <column name="chkreq_id" fieldName="chkreq_id" label="fk Chkreq id" foreignKey="fk_chkreq" />
+    <column name="attachment" fieldName="Attachment" label="Attachment" />
+    <column name="file_name" fieldName="FileName" label="File Name" />
+    <column name="created_date" fieldName="CreatedDate" label="Created Date" format="g" />
+    <column name="Length" fieldName="Length" label="Length" />
+    <column name="ContentType" fieldName="ContentType" label="Content Type" />
+  </columns>
+</dataModel>

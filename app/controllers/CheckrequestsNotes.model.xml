@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="CheckRequests_Notes" alias="CheckRequests_Notes" created="2019-04-09T14:37:29" modified="2019-04-09T17:16:40" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="fk_chkreq" parentTableSchema="dbo" parentTableName="CheckRequests" x="295" y="20">
+      <foreignKeyColumn columnName="fk_chkreq_id" parentColumnName="chkreq_id" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="note_id" fieldName="NoteID" label="Note ID" />
+    <column name="note" fieldName="Note" label="Note" />
+    <column name="chkreq_id" fieldName="fkChkreqid" label="Chk Req ID" foreignKey="fk_chkreq" />
+    <column name="created_date" fieldName="CreatedDate" label="Created Date" format="g" />
+  </columns>
+</dataModel>

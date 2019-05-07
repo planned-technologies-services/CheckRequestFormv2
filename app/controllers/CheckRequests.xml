@@ -1,0 +1,456 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataController name="CheckRequests" conflictDetection="overwriteChanges" label="Check Requests" handler="MyCompany.Rules.CheckRequestsBusinessRules" xmlns="urn:schemas-codeontime-com:data-aquarium">
+  <commands>
+    <command id="command1" type="Text">
+      <text><![CDATA[
+select
+	"CheckRequests"."chkreq_id" "ChkreqID"
+	,"CheckRequests"."chkreq_status" "ChkreqStatus"
+	,"CheckRequests"."chkreq_sendto_userid" "ChkreqSendtoUserid"
+	,"CheckRequests"."chkreq_requestedby_userid" "ChkreqRequestedbyUserid"
+	,"CheckRequests"."chkreq_pickup" "ChkreqPickup"
+	,"CheckRequests"."chkreq_reason_id" "ChkreqReasonID"
+	,"chkreq_reason"."cr_reason" "ChkreqReasoncrReason"
+	,"CheckRequests"."chkreq_reason_comment" "ChkreqReasonComment"
+	,"CheckRequests"."chkreq_categoryselection" "ChkreqCategoryselection"
+	,"CheckRequests"."chkreq_category_othertext" "ChkreqCategoryOthertext"
+	,"CheckRequests"."chkreq_jobno" "ChkreqJobno"
+	,"CheckRequests"."chkreq_approvedby_userid" "ChkreqApprovedbyUserid"
+	,"CheckRequests"."chkreq_approveddate" "ChkreqApproveddate"
+	,"CheckRequests"."chkreq_to_name" "ChkreqToName"
+	,"CheckRequests"."chkreq_to_line1" "ChkreqToLine1"
+	,"CheckRequests"."chkreq_to_line2" "ChkreqToLine2"
+	,"CheckRequests"."chkreq_to_city" "ChkreqToCity"
+	,"CheckRequests"."chkreq_to_state" "ChkreqToState"
+	,"CheckRequests"."chkreq_to_zipcode" "ChkreqToZipcode"
+	,"CheckRequests"."created_date" "CreatedDate"
+	,"CheckRequests"."updated_date" "UpdatedDate"
+	,"CheckRequests"."chkreq_office" "ChkreqOffice"
+	,"CheckRequests"."chkreq_amount" "ChkreqAmount"
+	,"CheckRequests"."chkreq_to_line3" "ChkreqtoLine3"
+from "dbo"."CheckRequests" "CheckRequests"
+	left join "dbo"."CheckRequests_Reason" "chkreq_reason" on "CheckRequests"."chkreq_reason_id" = "chkreq_reason"."cr_reason_id"
+order by "CheckRequests"."created_date" desc]]></text>
+    </command>
+    <command id="chkreq_idIdentityCommand" type="Text" event="Inserted">
+      <text><![CDATA[select @@identity]]></text>
+      <output>
+        <fieldOutput fieldName="ChkreqID" />
+      </output>
+    </command>
+  </commands>
+  <fields>
+    <field name="ChkreqID" type="Int32" allowNulls="false" isPrimaryKey="true" label="Check Request ID" readOnly="true" />
+    <field name="ChkreqStatus" type="String" default="('P')" label="Status" length="1" showInSummary="true">
+      <items style="DropDownList">
+        <item value="N" text="New" />
+        <item value="P" text="Pending" />
+        <item value="A" text="Approved" />
+        <item value="R" text="Rejected" />
+      </items>
+    </field>
+    <field name="ChkreqSendtoUserid" type="Int32" label="Sent To" showInSummary="true" />
+    <field name="ChkreqRequestedbyUserid" type="Int32" label="Created By" showInSummary="true" />
+    <field name="ChkreqPickup" type="String" allowNulls="false" label="Distributed By" length="1" showInSummary="true">
+      <items style="RadioButtonList">
+        <item value="P" text="in Person" />
+        <item value="M" text="by Mail" />
+      </items>
+    </field>
+    <field name="ChkreqReasonID" type="Int32" allowNulls="false" label="Reason ID" showInSummary="true">
+      <items style="DropDownList" dataController="CheckrequestsReason" dataValueField="CrReasonID" dataTextField="CrReason" dataView="grid1" />
+    </field>
+    <field name="ChkreqOffice" type="String" label="Office" length="10" allowNulls="false">
+      <items style="DropDownList" dataController="VCompany" dataView="grid1" dataTextField="CompanyCode" dataValueField="CompanyCode" />
+    </field>
+    <field name="ChkreqAmount" type="Currency" label="Check Amount" dataFormatString="c2" allowNulls="false" />
+    <field name="ChkreqReasoncrReason" type="String" readOnly="true" label="Reason" length="100" />
+    <field name="ChkreqReasonComment" type="String" allowQBE="false" allowSorting="false" label="Addt'l. Reason Comments" />
+    <field name="ChkreqCategoryselection" type="String" allowQBE="false" allowSorting="false" label="Category">
+      <items style="DropDownList">
+        <item value="Employee" text="Employee" />
+        <item value="Contractor" text="Contractor" />
+        <item value="Corporation" text="Corporation" />
+        <item value="Law Firm" text="Law Firm" />
+        <item value="Building Tenant" text="Building Tenant" />
+        <item value="Charity" text="Charity" />
+        <item value="Other" text="Other" />
+      </items>
+    </field>
+    <field name="ChkreqCategoryOthertext" type="String" allowQBE="false" allowSorting="false" label="Addt'l Category Comments" />
+    <field name="ChkreqJobno" type="String" label="Job #" length="10" contextFields="CompanyCode=ChkreqOffice">
+      <items style="Lookup" dataController="VSiteAll" dataView="gridFiltered" dataTextField="SiteName" dataValueField="Jobno" />
+      <configuration>Label=ChkreqOffice</configuration>
+    </field>
+    <field name="ChkreqApprovedbyUserid" type="Int32" label="Approved By" />
+    <field name="ChkreqApproveddate" type="DateTime" dataFormatString="g" label="Approved Date" />
+    <field name="ChkreqToName" type="String" allowNulls="false" label="Check Payable To" length="30" />
+    <field name="ChkreqToLine1" type="String" allowNulls="false" label="Address 1" length="30" />
+    <field name="ChkreqToLine2" type="String" label="Address 2" length="30" />
+    <field name="ChkreqtoLine3" type="String" label="Chkreq to Line 3" length="30" />
+    <field name="ChkreqToCity" type="String" allowNulls="false" label="City" length="30" />
+    <field name="ChkreqToState" type="String" allowNulls="false" label="State" length="2">
+      <items style="DropDownList" dataController="State" dataView="grid1" dataTextField="State" dataValueField="State" />
+    </field>
+    <field name="ChkreqToZipcode" type="String" allowNulls="false" label="Zipcode" length="10" />
+    <field name="CreatedDate" type="DateTime" allowNulls="false" dataFormatString="g" default="(getdate())" label="Created Date" />
+    <field name="UpdatedDate" type="DateTime" dataFormatString="g" default="(getdate())" label="Updated Date" />
+    <field name="CheckrequestsAttachments" type="DataView" label="Checkrequests Attachments">
+      <dataView controller="CheckrequestsAttachments" view="grid1" filterFields="FKChkreqID" />
+    </field>
+    <field name="CheckrequestsNotes" type="DataView" label="Checkrequests Notes">
+      <dataView controller="CheckrequestsNotes" view="grid1" />
+    </field>
+    <field name="EmployeeSearch" type="String" label="Employee Search" contextFields="CompanyCode=ChkreqOffice" length="10" isVirtual="true">
+      <items style="Lookup" dataController="VEmployeeActive" dataView="grid1" copy="ChkreqToName=EmployeeName&#xD;&#xA;ChkreqToLine1=Address1&#xD;&#xA;ChkreqToLine2=Address2&#xD;&#xA;ChkreqToCity=City&#xD;&#xA;ChkreqToState=State&#xD;&#xA;ChkreqToZipcode=Zipcode&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" dataTextField="EmployeeName" dataValueField="EmployeeName" pageSize="25" />
+    </field>
+  </fields>
+  <views>
+    <view id="gridAll" type="Grid" commandId="command1" label="All Check Requests" sortExpression="CreatedDate desc">
+      <headerText>$DefaultGridViewDescription</headerText>
+      <dataFields>
+        <dataField fieldName="ChkreqID" columns="15" />
+        <dataField fieldName="ChkreqStatus" columns="1" />
+        <dataField fieldName="ChkreqPickup" columns="1" />
+        <dataField fieldName="ChkreqOffice" columns="10" />
+        <dataField fieldName="ChkreqAmount" columns="15" />
+        <dataField fieldName="ChkreqReasonID" aliasFieldName="ChkreqReasoncrReason" />
+        <dataField fieldName="ChkreqCategoryselection" rows="5" />
+        <dataField fieldName="ChkreqJobno" columns="7" />
+        <dataField fieldName="ChkreqApproveddate" columns="20" />
+        <dataField fieldName="ChkreqToName" columns="30" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="UpdatedDate" columns="20" />
+        <dataField fieldName="CheckrequestsAttachments" columns="15" />
+        <dataField fieldName="CheckrequestsNotes" columns="15" />
+      </dataFields>
+    </view>
+    <view id="editForm1" type="Form" commandId="command1" label="Review Check Requests" tags="material-icon-create">
+      <headerText>$DefaultEditViewDescription</headerText>
+      <categories>
+        <category headerText="Status" id="c5" flow="NewColumn">
+          <dataFields>
+            <dataField fieldName="ChkreqID" columns="15" />
+            <dataField fieldName="ChkreqStatus" columns="1" textMode="Static" />
+          </dataFields>
+        </category>
+        <category id="c1" headerText="Check Request Info">
+          <description />
+          <dataFields>
+            <dataField fieldName="ChkreqPickup" columns="1">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqOffice" columns="10">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqAmount" columns="15">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqJobno" columns="7">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqReasonID" aliasFieldName="ChkreqReasoncrReason">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqReasonComment" rows="5">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqCategoryselection" rows="5">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqCategoryOthertext" rows="5">
+              <visibility>
+                <expression test="[ChkreqCategoryselection]=='Other'" type="ClientScript" />
+              </visibility>
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="EmployeeSearch" columns="10">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+              <visibility>
+                <expression test="[ChkreqCategoryselection] == 'Employee'" type="ClientScript" />
+              </visibility>
+            </dataField>
+          </dataFields>
+        </category>
+        <category headerText="Payable To" id="c6">
+          <dataFields>
+            <dataField fieldName="ChkreqToName" columns="30">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqToLine1" columns="30">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqToLine2" columns="30">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqtoLine3" columns="30">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqToCity" columns="30">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqToState" columns="2">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqToZipcode" columns="10">
+              <readOnly>
+                <expression test="[ChkreqStatus]=='P' || [ChkreqStatus]=='A' || [ChkreqStatus]=='R' " type="ClientScript" />
+              </readOnly>
+            </dataField>
+          </dataFields>
+        </category>
+        <category id="c3" headerText="Attachments" flow="NewRow">
+          <dataFields>
+            <dataField fieldName="CheckrequestsAttachments" columns="15" tag="modal-always modal-fit-content modal-max-xs page-header-none" />
+          </dataFields>
+          <description><![CDATA[Please provide W-9 Form for all new vendors along with Check Request.]]></description>
+        </category>
+        <category headerText="Notes" id="c4" flow="NewRow">
+          <dataFields>
+            <dataField fieldName="CheckrequestsNotes" columns="15" />
+          </dataFields>
+        </category>
+        <category headerText="Audit" id="c2" floating="true" flow="NewRow">
+          <dataFields>
+            <dataField fieldName="ChkreqSendtoUserid" columns="15" hidden="true" />
+            <dataField fieldName="ChkreqRequestedbyUserid" columns="15" hidden="true" />
+            <dataField fieldName="ChkreqApprovedbyUserid" columns="15" hidden="true" />
+            <dataField fieldName="ChkreqApproveddate" columns="20" hidden="true" textMode="Static" />
+            <dataField fieldName="CreatedDate" columns="20" textMode="Static" />
+            <dataField fieldName="UpdatedDate" columns="10" textMode="Static">
+              <visibility>
+                <expression test="[UpdatedDate] != null" type="ClientScript" />
+              </visibility>
+              <headerText>Last Updated</headerText>
+            </dataField>
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="createForm1" type="Form" commandId="command1" label="New Check Requests" tags="material-icon-add">
+      <headerText>$DefaultCreateViewDescription</headerText>
+      <categories>
+        <category id="c1" headerText="Check Request Info" flow="NewColumn">
+          <description />
+          <dataFields>
+            <dataField fieldName="ChkreqSendtoUserid" columns="15" hidden="true" />
+            <dataField fieldName="ChkreqRequestedbyUserid" columns="15" hidden="true" />
+            <dataField fieldName="ChkreqPickup" columns="1" />
+            <dataField fieldName="ChkreqOffice" columns="10" />
+            <dataField fieldName="ChkreqAmount" columns="15" />
+            <dataField fieldName="ChkreqJobno" columns="7">
+              <readOnly>
+                <expression test="[ChkreqOffice] == ''" type="ClientScript" />
+              </readOnly>
+            </dataField>
+            <dataField fieldName="ChkreqReasonID" aliasFieldName="ChkreqReasoncrReason" />
+            <dataField fieldName="ChkreqReasonComment" rows="5" />
+            <dataField fieldName="ChkreqCategoryselection" rows="5" />
+            <dataField fieldName="ChkreqCategoryOthertext" rows="5">
+              <visibility>
+                <expression test="[ChkreqCategoryselection]=='Other'" type="ClientScript" />
+              </visibility>
+            </dataField>
+            <dataField fieldName="CreatedDate" columns="20" hidden="true" />
+            <dataField fieldName="EmployeeSearch" columns="10">
+              <visibility>
+                <expression test="[ChkreqCategoryselection] == 'Employee'" type="ClientScript" />
+              </visibility>
+            </dataField>
+          </dataFields>
+        </category>
+        <category headerText="Payable To" id="c2">
+          <dataFields>
+            <dataField fieldName="ChkreqToName" columns="30" />
+            <dataField fieldName="ChkreqToLine1" columns="30" />
+            <dataField fieldName="ChkreqToLine2" columns="30" />
+            <dataField fieldName="ChkreqtoLine3" columns="30" />
+            <dataField fieldName="ChkreqToCity" columns="30" />
+            <dataField fieldName="ChkreqToState" columns="2" />
+            <dataField fieldName="ChkreqToZipcode" columns="10" />
+          </dataFields>
+        </category>
+      </categories>
+    </view>
+    <view id="gridPending" type="Grid" commandId="command1" label="Pending Check Requests" sortExpression="CreatedDate desc" filter="ChkreqStatus = 'P'" tags="material-icon-hourglass_empty">
+      <headerText>$DefaultGridViewDescription</headerText>
+      <dataFields>
+        <dataField fieldName="ChkreqStatus" columns="1" />
+        <dataField fieldName="ChkreqPickup" columns="1" />
+        <dataField fieldName="ChkreqReasonID" aliasFieldName="ChkreqReasoncrReason" />
+        <dataField fieldName="ChkreqCategoryselection" rows="5" />
+        <dataField fieldName="ChkreqJobno" columns="7" />
+        <dataField fieldName="ChkreqToName" columns="30" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="UpdatedDate" columns="20" />
+        <dataField fieldName="ChkreqOffice" columns="10" />
+        <dataField fieldName="ChkreqAmount" columns="15" />
+        <dataField fieldName="ChkreqtoLine3" columns="30" />
+        <dataField fieldName="CheckrequestsAttachments" columns="15" />
+        <dataField fieldName="CheckrequestsNotes" columns="15" />
+      </dataFields>
+    </view>
+    <view id="gridApproved" type="Grid" commandId="command1" label="Approved Check Requests" sortExpression="ChkreqApprovedDate desc" filter="ChkreqStatus = 'A'" tags="material-icon-check">
+      <headerText>$DefaultGridViewDescription</headerText>
+      <dataFields>
+        <dataField fieldName="ChkreqStatus" columns="1" />
+        <dataField fieldName="ChkreqPickup" columns="1" />
+        <dataField fieldName="ChkreqReasonID" aliasFieldName="ChkreqReasoncrReason" />
+        <dataField fieldName="ChkreqCategoryselection" rows="5" />
+        <dataField fieldName="ChkreqJobno" columns="7" />
+        <dataField fieldName="ChkreqApproveddate" columns="20" />
+        <dataField fieldName="ChkreqToName" columns="30" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="ChkreqOffice" columns="10" />
+        <dataField fieldName="ChkreqAmount" columns="15" />
+        <dataField fieldName="ChkreqtoLine3" columns="30" />
+        <dataField fieldName="CheckrequestsAttachments" columns="15" />
+        <dataField fieldName="CheckrequestsNotes" columns="15" />
+      </dataFields>
+    </view>
+    <view id="gridRejected" type="Grid" commandId="command1" label="Rejected Check Requests" sortExpression="UpdatedDate desc" filter="ChkreqStatus = 'R'" tags="material-icon-close">
+      <headerText>$DefaultGridViewDescription</headerText>
+      <dataFields>
+        <dataField fieldName="ChkreqStatus" columns="1" />
+        <dataField fieldName="ChkreqPickup" columns="1" />
+        <dataField fieldName="ChkreqReasonID" aliasFieldName="ChkreqReasoncrReason" />
+        <dataField fieldName="ChkreqCategoryselection" rows="5" />
+        <dataField fieldName="ChkreqJobno" columns="7" />
+        <dataField fieldName="ChkreqToName" columns="30" />
+        <dataField fieldName="CreatedDate" columns="20" />
+        <dataField fieldName="UpdatedDate" columns="20" />
+        <dataField fieldName="ChkreqOffice" columns="10" />
+        <dataField fieldName="ChkreqAmount" columns="15" />
+        <dataField fieldName="ChkreqtoLine3" columns="30" />
+        <dataField fieldName="CheckrequestsAttachments" columns="15" />
+        <dataField fieldName="CheckrequestsNotes" columns="15" />
+      </dataFields>
+    </view>
+  </views>
+  <actions>
+    <actionGroup id="ag1" scope="Grid">
+      <action id="a1" commandName="Select" commandArgument="editForm1" />
+      <action id="a2" commandName="Edit" whenClientScript="[ChkreqStatus] == 'N'" />
+      <action id="a3" commandName="Delete" />
+      <action id="a6" />
+      <action id="a7" commandName="New" commandArgument="gridAll" />
+      <action id="a8" commandName="Duplicate" commandArgument="createForm1" />
+      <action commandName="Custom" commandArgument="ApproveRequest" headerText="Approve" cssClass="material-icon-check" whenClientScript="[ChkreqStatus] == 'P' &amp;&amp; [ChkreqApproveddate] == null" id="a100" />
+      <action commandName="Custom" commandArgument="RejectRequest" headerText="Reject" cssClass="material-icon-close" whenClientScript="[ChkreqStatus] == 'P' &amp;&amp; [ChkreqApproveddate] == null" id="a101" />
+    </actionGroup>
+    <actionGroup id="ag2" scope="Form">
+      <action id="a1" commandName="Edit" whenClientScript="[ChkreqStatus] == 'N'" />
+      <action id="a2" commandName="Delete" />
+      <action id="a3" commandName="Cancel" />
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" commandArgument="Save" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" commandArgument="Save" />
+      <action id="a7" whenLastCommandName="New" commandName="Insert" commandArgument="SaveAndNew" />
+      <action id="a8" whenLastCommandName="New" commandName="Cancel" />
+      <action id="a9" whenLastCommandName="Duplicate" commandName="Insert" />
+      <action id="a10" whenLastCommandName="Duplicate" commandName="Cancel" />
+      <action id="a13" whenLastCommandName="Insert" whenLastCommandArgument="Save" whenView="createForm1" commandName="Select" commandArgument="editForm1" whenClientScript="this.hasDetails()" />
+      <action id="a14" whenLastCommandName="Insert" whenLastCommandArgument="SaveAndNew" commandName="New" commandArgument="createForm1" />
+      <action commandName="Custom" commandArgument="ApproveRequest" headerText="Approve" cssClass="material-icon-check" whenClientScript="[ChkreqStatus] == 'P' &amp;&amp; [ChkreqApproveddate] == null" id="a100" />
+      <action commandName="Custom" commandArgument="RejectRequest" headerText="Reject" cssClass="material-icon-close" whenClientScript="[ChkreqStatus] == 'P' &amp;&amp; [ChkreqApproveddate] == null" id="a101" />
+    </actionGroup>
+    <actionGroup id="ag3" scope="ActionBar" headerText="New" flat="true">
+      <action id="a1" commandName="New" commandArgument="createForm1" cssClass="NewIcon" />
+    </actionGroup>
+    <actionGroup id="ag4" scope="ActionBar" headerText="Edit/Delete" flat="true">
+      <action id="a1" whenKeySelected="true" commandName="Edit" commandArgument="editForm1" cssClass="EditIcon" whenView="gridAll" />
+      <action id="a2" whenKeySelected="true" commandName="Delete" cssClass="DeleteIcon" whenView="gridAll" />
+    </actionGroup>
+    <actionGroup id="ag5" scope="ActionBar" headerText="Actions">
+      <action id="a1" commandName="ExportCsv" />
+      <action id="a2" />
+      <action id="a3" commandName="ExportRowset" />
+      <action id="a4" commandName="ExportRss" />
+      <action id="a5" />
+      <action id="a6" commandName="Import" commandArgument="createForm1" />
+      <action id="a7" commandName="DataSheet" />
+      <action id="a8" commandName="Grid" />
+    </actionGroup>
+    <actionGroup id="ag6" scope="ActionBar" headerText="Record">
+      <action id="a1" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a2" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a3" whenLastCommandName="New" commandName="Insert" />
+      <action id="a4" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+    <actionGroup id="ag7" scope="ActionBar" headerText="Report">
+      <action id="a1" commandName="ReportAsPdf" />
+      <action id="a2" commandName="ReportAsImage" />
+      <action id="a3" commandName="ReportAsExcel" />
+      <action id="a4" commandName="ReportAsWord" />
+    </actionGroup>
+    <actionGroup id="ag8" scope="Row">
+      <action id="a4" whenLastCommandName="Edit" commandName="Update" />
+      <action id="a5" whenLastCommandName="Edit" commandName="Cancel" />
+      <action id="a6" whenLastCommandName="New" commandName="Insert" />
+      <action id="a7" whenLastCommandName="New" commandName="Cancel" />
+    </actionGroup>
+  </actions>
+  <businessRules>
+    <rule id="r100" commandName="New" type="Sql" phase="Execute"><![CDATA[SET @CreatedDate = GETDATE()]]></rule>
+    <rule id="r101" commandName="Update" type="Sql" phase="Execute"><![CDATA[SET @UpdatedDate = GETDATE()]]></rule>
+    <rule id="r102" commandName="Custom" commandArgument="ApproveRequest" type="Sql" phase="Execute"><![CDATA[update CheckRequests
+set chkreq_approveddate = GETDATE(),
+	chkreq_status = 'A'
+where chkreq_id = @ChkreqID]]></rule>
+    <rule id="r103" commandName="Custom" commandArgument="RejectRequest" type="Sql" phase="Execute"><![CDATA[update 	CheckRequests
+set 	updated_date = GETDATE(),
+		chkreq_status = 'R'
+where 	chkreq_id = @ChkreqID]]></rule>
+    <rule id="r104" commandName="Select" type="JavaScript" phase="Before"><![CDATA[$.ajax({
+  url: "http://planned/connector/checkreq/main.cfc",
+  datatype: 'json',
+  data: { method: "testFunc", testVar: 1 },
+  success: function(dataComeback){
+  	console.log(dataComeback);
+  }
+})]]></rule>
+  </businessRules>
+  <statusBar><![CDATA[ChkreqStatus: N
+[New] > Pending > Approved >
+
+ChkreqStatus: P
+New > [Pending] > Approved >
+
+ChkreqStatus: A
+New > Pending > [Approved] >
+
+ChkreqStatus: R
+New > Pending > [Rejected] >
+
+]]></statusBar>
+</dataController>

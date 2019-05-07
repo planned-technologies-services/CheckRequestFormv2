@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<dataModel baseSchema="dbo" baseTable="CheckRequests" alias="CheckRequests" created="2019-04-06T12:19:47" modified="2019-04-12T14:23:54" x="20" y="20" xmlns="urn:schemas-codeontime-com:data-model">
+  <foreignKeys>
+    <foreignKey id="chkreq_reason" parentTableSchema="dbo" parentTableName="CheckRequests_Reason" x="376" y="20">
+      <foreignKeyColumn columnName="chkreq_reason_id" parentColumnName="cr_reason_id" />
+    </foreignKey>
+  </foreignKeys>
+  <columns>
+    <column name="chkreq_id" fieldName="ChkreqID" label="Check Request ID" />
+    <column name="chkreq_status" fieldName="ChkreqStatus" label="Status" />
+    <column name="chkreq_sendto_userid" fieldName="ChkreqSendtoUserid" label="Sent To" />
+    <column name="chkreq_requestedby_userid" fieldName="ChkreqRequestedbyUserid" label="Created By" />
+    <column name="chkreq_pickup" fieldName="ChkreqPickup" label="Distributed By" />
+    <column name="chkreq_reason_id" fieldName="ChkreqReasonID" label="Reason ID" aliasColumnName="cr_reason" aliasForeignKey="chkreq_reason" />
+    <column name="cr_reason" fieldName="ChkreqReasoncrReason" label="Chkreq Reason cr Reason" foreignKey="chkreq_reason" />
+    <column name="chkreq_reason_comment" fieldName="ChkreqReasonComment" label="Addt'l. Reason Comments" />
+    <column name="chkreq_categoryselection" fieldName="ChkreqCategoryselection" label="Category" />
+    <column name="chkreq_category_othertext" fieldName="ChkreqCategoryOthertext" label="Addt'l Category Comments" />
+    <column name="chkreq_jobno" fieldName="ChkreqJobno" label="Job  #" />
+    <column name="chkreq_approvedby_userid" fieldName="ChkreqApprovedbyUserid" label="Approved By" />
+    <column name="chkreq_approveddate" fieldName="ChkreqApproveddate" label="Approved Date" format="g" />
+    <column name="chkreq_to_name" fieldName="ChkreqToName" label="Check Payable To" />
+    <column name="chkreq_to_line1" fieldName="ChkreqToLine1" label="Address 1" />
+    <column name="chkreq_to_line2" fieldName="ChkreqToLine2" label="Address 2" />
+    <column name="chkreq_to_city" fieldName="ChkreqToCity" label="City" />
+    <column name="chkreq_to_state" fieldName="ChkreqToState" label="State" />
+    <column name="chkreq_to_zipcode" fieldName="ChkreqToZipcode" label="Zipcode" />
+    <column name="created_date" fieldName="CreatedDate" label="Created Date" format="g" sortType="Descending" sortOrder="1" />
+    <column name="updated_date" fieldName="UpdatedDate" label="Updated Date" format="g" />
+    <column name="chkreq_office" fieldName="ChkreqOffice" label="Office" />
+    <column name="chkreq_amount" fieldName="ChkreqAmount" label="Check Amount" />
+    <column name="chkreq_to_line3" fieldName="ChkreqtoLine3" label="Chkreq to Line 3" />
+  </columns>
+</dataModel>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0">
+  <siteMapNode title="^SiteHome^Home^SiteHome^" description="" url="~/index.html">
+    <siteMapNode title="^HomePath^Home^HomePath^" description="^HomeDesc^Application home page^HomeDesc^" url="~/pages/home" cssClass="Wide" />
+    <siteMapNode title="Check Requests" description="View Check Requests" url="~/pages/check-requests" cssClass="material-icon-local-atm" />
+    <siteMapNode title="Admin" description="" roles="*">
+      <siteMapNode title="Check Request Reasons" description="View Checkrequests Reason" url="~/pages/checkrequests-reason" cssClass="material-icon-format_quote" />
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>
